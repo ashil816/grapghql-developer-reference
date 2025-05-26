@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { geistSans, geistMono } from "./fonts"; // Import from fonts.ts
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// geistSans and geistMono are now imported, no need to define here
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,7 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    // Add the font variables to the html tag for global access
+    // The ThemeProvider will still handle applying 'dark' or 'light' class
+    <html lang="en" suppressHydrationWarning={true} className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
@@ -32,7 +26,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="font-sans antialiased" // Use Tailwind's font-sans which now maps to Geist Sans
       >
         <ThemeProvider
           attribute="class"
